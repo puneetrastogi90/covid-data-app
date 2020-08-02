@@ -14,15 +14,7 @@ class QueryParamsInterceptor @Inject constructor() : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val original: Request = chain.request()
-        val originalHttpUrl: HttpUrl = original.url()
-        val url = originalHttpUrl.newBuilder()
-            .addQueryParameter("apiKey", BuildConfig.API_KEY)
-            .addQueryParameter("country", "in")
-            .build()
-        val requestBuilder = original.newBuilder()
-            .url(url)
-
-        val request = requestBuilder.build()
-        return chain.proceed(request)
+        val newReq = original.newBuilder().addHeader("x-rapidapi-key", BuildConfig.API_KEY).build()
+        return chain.proceed(newReq)
     }
 }
