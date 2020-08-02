@@ -21,6 +21,7 @@ import com.covid.covidapp.utils.addFragment
 import com.covid.covidapp.utils.showToast
 import com.covid.covidapp.viewmodels.CovidViewModel
 import kotlinx.android.synthetic.main.fragment_world_report.*
+import okhttp3.internal.Util
 import javax.inject.Inject
 
 
@@ -77,10 +78,12 @@ class WorldReportFragment : BaseFragment() {
     }
 
     private fun initializeUi(worldReportModel: WorldReportModel) {
-        confirmed_textview.text = worldReportModel!!.get(0).confirmed!!.toString()
-        active_textview.text = worldReportModel!!.get(0).critical!!.toString()
-        recovered_textview.text = worldReportModel!!.get(0).recovered!!.toString()
-        deceased_textview.text = worldReportModel!!.get(0).deaths!!.toString()
+        confirmed_textview.text =
+            Utils.getCommaSeparatedNumber(worldReportModel!!.get(0).confirmed!!)
+        active_textview.text = Utils.getCommaSeparatedNumber(worldReportModel!!.get(0).critical!!)
+        recovered_textview.text =
+            Utils.getCommaSeparatedNumber(worldReportModel!!.get(0).recovered!!)
+        deceased_textview.text = Utils.getCommaSeparatedNumber(worldReportModel!!.get(0).deaths!!)
         updated_time_textview.text =
             "Updated On ${Utils.getReadableDateString(worldReportModel.get(0).lastUpdate)}"
 

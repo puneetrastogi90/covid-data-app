@@ -2,6 +2,7 @@ package com.covid.covidapp.utils
 
 
 import android.os.Build
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -23,6 +24,10 @@ class Utils {
             return requireDateFormat.format(dateObj)
 
 
+        }
+
+        fun getCommaSeparatedNumber(number: Int): String {
+            return NumberFormat.getNumberInstance(Locale.US).format(number)
         }
 
 
