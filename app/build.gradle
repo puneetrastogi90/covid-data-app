@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'org.jetbrains.kotlin.android.extensions'
+apply plugin: 'realm-android'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -59,7 +60,8 @@ dependencies {
     api 'com.intuit.ssp:ssp-android:1.0.6'
     implementation okhttpDependencies.okhttp
     implementation okhttpDependencies.okhttpLogging
-
+    testImplementation 'org.mockito:mockito-inline:2.8.47'
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
 
     implementation retrofitDependencies.retrofit
     implementation retrofitDependencies.retrofitRxJava
