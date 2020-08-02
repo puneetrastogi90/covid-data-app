@@ -1,11 +1,18 @@
 package com.covid.covidapp
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
+import com.covid.covidapp.base.BaseActivity
+import com.covid.covidapp.base.BaseFragment
+import com.covid.covidapp.fragments.WorldReportFragment
+import com.covid.covidapp.utils.replaceFragment
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+class MainActivity : BaseActivity() {
+    private var currentFragment: BaseFragment = WorldReportFragment.newInstance()
+
+    override fun defineLayoutResource(): Int {
+        return R.layout.activity_main
+    }
+
+    override fun initializeComponents() {
+        replaceFragment(R.id.container, supportFragmentManager, currentFragment, false)
     }
 }
