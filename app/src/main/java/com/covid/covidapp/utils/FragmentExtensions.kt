@@ -3,6 +3,8 @@ package com.covid.covidapp.utils
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import com.covid.covidapp.base.BaseActivity
 
 /**
  * Adds the Fragment into layout container.
@@ -28,6 +30,24 @@ fun Fragment.addFragment(
         (activity as AppCompatActivity).addFragment(
             container,
             currentFragment,
+            nextFragment,
+            commitAllowingStateLoss
+        )
+
+    } else false
+}
+
+@Throws(IllegalStateException::class)
+fun Fragment.replaceFragment(
+    container: Int,
+    fragmentManager: FragmentManager,
+    nextFragment: Fragment,
+    commitAllowingStateLoss: Boolean
+): Boolean {
+    return if (activity != null) {
+        (activity as BaseActivity).replaceFragment(
+            container,
+            fragmentManager,
             nextFragment,
             commitAllowingStateLoss
         )
