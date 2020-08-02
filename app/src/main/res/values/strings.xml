@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CovidApp</string>
+    <integer name="default_transaction_animation_duration">250</integer>
 </resources>
