@@ -12,11 +12,15 @@ import androidx.lifecycle.ViewModelProvider
 import com.covid.covidapp.R
 import com.covid.covidapp.appComponent
 import com.covid.covidapp.base.BaseFragment
+import com.covid.covidapp.data.WorldReportModel
 import com.covid.covidapp.di.CovidDataComponent
 import com.covid.covidapp.di.DaggerCovidDataComponent
 import com.covid.covidapp.di.ViewModelFactory
+import com.covid.covidapp.utils.Utils
+import com.covid.covidapp.utils.addFragment
 import com.covid.covidapp.utils.showToast
 import com.covid.covidapp.viewmodels.CovidViewModel
+import kotlinx.android.synthetic.main.fragment_world_report.*
 import javax.inject.Inject
 
 
@@ -45,6 +49,11 @@ class WorldReportFragment : BaseFragment() {
     override fun initializeComponent(view: View) {
         covidDataComponent.inject(this)
         viewModel.getWorldCovidData()
+        searchBycountryCardView.setOnClickListener(
+            View.OnClickListener {
+                addFragment(R.id.container, this, CountriesListFragment.newInstance(), true)
+            }
+        )
         viewModel.uiState.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is CovidViewModel.LoadingState.Loading -> (requireActivity() as AppCompatActivity).showToast(
@@ -63,8 +72,18 @@ class WorldReportFragment : BaseFragment() {
         })
 
         viewModel.worldCovidDataLiveData.observe(viewLifecycleOwner, Observer {
-            Log.i(TAG, it.toString())
+            initializeUi(it!!)
         })
+    }
+
+    private fun initializeUi(worldReportModel: WorldReportModel) {
+        confirmed_textview.text = worldReportModel!!.get(0).confirmed!!.toString()
+        active_textview.text = worldReportModel!!.get(0).critical!!.toString()
+        recovered_textview.text = worldReportModel!!.get(0).recovered!!.toString()
+        deceased_textview.text = worldReportModel!!.get(0).deaths!!.toString()
+        updated_time_textview.text =
+            "Updated On ${Utils.getReadableDateString(worldReportModel.get(0).lastUpdate)}"
+
     }
 
     companion object {

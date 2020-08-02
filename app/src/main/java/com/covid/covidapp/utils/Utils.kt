@@ -16,16 +16,12 @@ class Utils {
             if (dateString == null)
                 return ""
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val formatter =
-                    DateTimeFormatter.ofPattern(Constants.DATE_DEFAULT_FORMAT, Locale.ENGLISH)
-                return LocalDate.parse(dateString, formatter).toString()
-            } else {
-                val formatter = SimpleDateFormat(Constants.DATE_DEFAULT_FORMAT)
-                val dateObj = formatter.parse(dateString)
-                val requireDateFormat = SimpleDateFormat(Constants.READABLE_DATE_FORMAT)
-                return requireDateFormat.format(dateObj)
-            }
+
+            val formatter = SimpleDateFormat(Constants.DATE_DEFAULT_FORMAT)
+            val dateObj = formatter.parse(dateString)
+            val requireDateFormat = SimpleDateFormat(Constants.READABLE_DATE_FORMAT)
+            return requireDateFormat.format(dateObj)
+
 
         }
 
