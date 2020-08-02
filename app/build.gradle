@@ -18,8 +18,17 @@ android {
     }
 
     buildTypes {
+        debug {
+            testCoverageEnabled true
+            minifyEnabled false
+            buildConfigField "String", 'BASE_URL', project.property('BASE_URL')
+            buildConfigField "String", 'API_KEY', project.property('API_KEY')
+        }
+
         release {
             minifyEnabled false
+            buildConfigField "String", 'BASE_URL', project.property('BASE_URL')
+            buildConfigField "String", 'API_KEY', project.property('API_KEY')
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
