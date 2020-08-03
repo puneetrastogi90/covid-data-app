@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import com.covid.covidapp.data.Result
+import com.covid.covidapp.data.WorldReportModelItem
 
 class CovidViewModel @Inject constructor(private val repository: CovidRepository) : ViewModel() {
     private var job: Job? = null

@@ -1,12 +1,10 @@
 package com.covid.covidapp.repositories
 
 
-import com.covid.covidapp.data.CountriesListModel
-import com.covid.covidapp.data.CountryCovidDetailModel
-import com.covid.covidapp.data.Result
-import com.covid.covidapp.data.WorldReportModel
+import com.covid.covidapp.data.*
 import com.covid.covidapp.datasources.CovidLocalDataSource
 import com.covid.covidapp.datasources.CovidRemoteDataSource
+import com.covid.covidapp.exceptions.NoInternetException
 import javax.inject.Inject
 
 class CovidRepository @Inject constructor(
@@ -16,6 +14,18 @@ class CovidRepository @Inject constructor(
 
     suspend fun getWorldData(): Result<WorldReportModel, WorldReportModel> {
         val result = covidRemoteDataSource.getWorldCovidData()
+        if (result is Result.Success<*, *>) {
+            covidLocalDataSource.removeAll()
+            covidLocalDataSource.saveWorldreport((result.data as WorldReportModel).get(0))
+            return result
+        } else {
+            if (result is Result.Error<*, *> && result.exception is NoInternetException) {
+                val worldReportModel = WorldReportModel()
+                worldReportModel.add(covidLocalDataSource.getCachedWorldReport())
+                result.data = worldReportModel
+            }
+            return result
+        }
         return result
     }
 

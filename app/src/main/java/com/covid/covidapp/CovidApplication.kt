@@ -18,6 +18,10 @@ class CovidApplication : Application() {
         fun appComponent(context: Context): AppComponent =
             (context as CovidApplication).appComponent
     }
+
+    override fun onCreate() {
+        super.onCreate()
+    }
 }
 
 fun Fragment.appComponent() =
