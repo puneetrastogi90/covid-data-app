@@ -13,12 +13,12 @@ This App also Supports caching i.e. if some data was previously loaded, we view 
  (We are assuming that we had proper internet connection on the first launch of app otherwise app might crash)
  
  
-Technical Specification:
+# Technical Specification:
  We have Used Dagger for Dependency Injection. 
  Room Persistence Library for Offline Support.
  We have also written Unit test cases for all Network Related calls.
  
  
-Build Information:
+# Build Information:
 
 Release build can be found on the root of the project with name "app-release.apk"
