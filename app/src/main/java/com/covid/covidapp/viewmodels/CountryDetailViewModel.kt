@@ -46,7 +46,12 @@ class CountryDetailViewModel @Inject constructor(private val repository: CovidRe
                 } else {
                     if (result is Result.Error && result.exception is NoInternetException) {
                         _uiState.value = LoadingState.Error(result.exception.message.toString())
-                        _countryCovidDetailLiveData.value = result.data as CountryCovidDetailModel
+                        if ((result.data as CountryCovidDetailModel).size < 1) {
+                            _uiState.value = LoadingState.Error("No Cached Data.")
+                        } else {
+                            _countryCovidDetailLiveData.value =
+                                result.data as CountryCovidDetailModel
+                        }
                     }
 
                 }

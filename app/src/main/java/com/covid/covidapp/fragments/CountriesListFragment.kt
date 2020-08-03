@@ -93,7 +93,7 @@ class CountriesListFragment : BaseFragment(),
         addFragment(
             R.id.container,
             this,
-            CountryDetailFragment.newInstance(countriesListModelItem.alpha2code),
+            CountryDetailFragment.newInstance(countriesListModelItem.alpha2code!!),
             true
         )
     }

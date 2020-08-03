@@ -15,7 +15,7 @@ class CovidRepository @Inject constructor(
     suspend fun getWorldData(): Result<WorldReportModel, WorldReportModel> {
         val result = covidRemoteDataSource.getWorldCovidData()
         if (result is Result.Success<*, *>) {
-            covidLocalDataSource.removeAll()
+            covidLocalDataSource.removeAllWorldData()
             covidLocalDataSource.saveWorldreport((result.data as WorldReportModel).get(0))
             return result
         } else {
@@ -31,11 +31,30 @@ class CovidRepository @Inject constructor(
 
     suspend fun getCountriesList(): Result<CountriesListModel, CountriesListModel> {
         val result = covidRemoteDataSource.getCountriesList()
+        if (result is Result.Success<*, *>) {
+            covidLocalDataSource.removeAllCountriesListData()
+            covidLocalDataSource.saveCountriesList(result.data as CountriesListModel)
+        } else {
+            if (result is Result.Error<*, *> && result.exception is NoInternetException) {
+                val countriesListModel = CountriesListModel()
+                countriesListModel.addAll(covidLocalDataSource.getAllCountriesFromDB())
+                result.data = countriesListModel
+            }
+        }
         return result
     }
 
     suspend fun getCountryCovidData(countryCode: String): Result<CountryCovidDetailModel, CountryCovidDetailModel> {
         val result = covidRemoteDataSource.getCountryCovidData(countryCode)
+        if (result is Result.Success<*, *>) {
+            covidLocalDataSource.saveCountryData(result.data as CountryCovidDetailModel)
+        } else {
+            if (result is Result.Error<*, *> && result.exception is NoInternetException) {
+                val countryCovidDetailModel = CountryCovidDetailModel()
+                countryCovidDetailModel.addAll(covidLocalDataSource.getCountryData(countryCode))
+                result.data = countryCovidDetailModel
+            }
+        }
         return result
     }
 

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.covid.covidapp.data.Result
 import com.covid.covidapp.data.WorldReportModel
 import com.covid.covidapp.exceptions.NoInternetException
 import com.covid.covidapp.repositories.CovidRepository
@@ -12,8 +13,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import com.covid.covidapp.data.Result
-import com.covid.covidapp.data.WorldReportModelItem
 
 class CovidViewModel @Inject constructor(private val repository: CovidRepository) : ViewModel() {
     private var job: Job? = null
